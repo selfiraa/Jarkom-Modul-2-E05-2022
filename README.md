@@ -101,7 +101,11 @@ cat /etc/resolv.conf
 > kemudian ketikkan command 
 ```
 echo nameserver 192.168.122.1 > /etc/resolv.conf
-```
+```  
+> hasil ping  
+
+![image](https://user-images.githubusercontent.com/80016547/198838142-4d6b44f6-5348-49d1-8de5-4691214950db.png)  
+
 ## 2
 > Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses `wise.yyy.com` dengan alias `www.wise.yyy.com` pada folder wise
 
