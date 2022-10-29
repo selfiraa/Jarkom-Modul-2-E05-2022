@@ -137,15 +137,74 @@ nano /etc/bind/wise/wise.E05.com
 ```
 service bind9 restart
 ```
+
+- Check ping pada Cliest `SSS` dan juga `Garden`
+```
+ping wise.E05.com -c 5
+```
+
 ## 3
 > Setelah itu ia juga ingin membuat subdomain `eden.wise.yyy.com` dengan alias `www.eden.wise.yyy.com` yang diatur DNS-nya di WISE dan mengarah ke Eden 
 
+- Buka `/etc/bind/wise/wise.E05.com` pada WISE
+- Tambahkan Line Baru 
+```
+eden		IN 	A	10.24.3.3
+www.eden	IN	CNAME	10.24.3.3
+```
+<img width="740" alt="Screen Shot 2022-10-29 at 18 54 39" src="https://user-images.githubusercontent.com/72302421/198830023-b669ee19-ecb0-4ccd-b18c-23f62833f3aa.png">
+
+- Restart Bind 
+```
+service bind9 restart
+```
 ## 4
 > Buat juga reverse domain untuk domain utama
+- Edit file `name.conf.local` pada WISE
+```
+nano /etc/bind/named.conf.local
+```
+- Tambahkan Line baru 
+```
+zone "3.24.10.in-addr.arpa" {
+    type master;
+    file "/etc/bind/wise/3.24.10.in-addr.arpa";
+```
+- Copy file `db.local` e dalam folder jarkom yang baru saja dibuat dan ubah namanya menjadi `3.24.10.in-addr.arpa`
+```
+cp /etc/bind/db.local /etc/bind/wise/3.24.10.in-addr.arpa
+```
+- Edit file `3.24.10.in-addr.arpa`
+```
+3.24.10.in-addr.arpa.   IN      NS      wise.E05.com.
+3                       IN      PTR     wise.E05.com.
+```
+<img width="720" alt="Screen Shot 2022-10-29 at 19 22 02" src="https://user-images.githubusercontent.com/72302421/198831281-9c73b91f-936d-4c42-989f-eb4da6a61db6.png">
+- Restart bind9
+```
+service bind9 restart
+```
 
 ## 5 
 > Agar dapat tetap dihubungi jika server WISE bermasalah, buatlah juga Berlint sebagai DNS Slave untuk domain utama
+- Konfigurasi Server WISE dengan mengedit file `/etc/bind/named.conf.local` dengan menyesuaikan code berikut 
+```
+zone "wise.E05.com" {
+        type master;
+        notify yes;
+        also-notify { 10.24.3.2; };
+        allow-transfer { 10.24.3.2; };
+        file "/etc/bind/wise/wise.E05.com";
+};
 
+zone "3.24.10.in-addr.arpa" {
+    type master;
+    file "/etc/bind/wise/3.24.10.in-addr.arpa";
+```
+- lakukan restaret
+```
+service bind9 restart
+```
 ## 6
 > Karena banyak informasi dari Handler, buatlah subdomain yang khusus untuk operation yaitu `operation.wise.yyy.com` dengan alias `www.operation.wise.yyy.com` yang didelegasikan dari WISE ke Berlint dengan IP menuju ke Eden dalam folder operation 
 
