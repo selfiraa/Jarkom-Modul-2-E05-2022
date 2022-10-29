@@ -278,20 +278,100 @@ ping strix.operation.wise.E05.com -c 5
 ## 8
 > Setelah melakukan konfigurasi server, maka dilakukan konfigurasi Webserver. Pertama dengan webserver `www.wise.yyy.com.` Pertama, Loid membutuhkan webserver dengan DocumentRoot pada /var/www/wise.yyy.com 
 
+- Konfigurasi `/etc/apache2/sites-available/wise.E05.com.conf` dan ubah DocumentRoot, ServerName, dan ServerAlias
+```
+ServerAdmin webmaster@localhost
+DocumentRoot /var/www/wise.E05.com
+ServerName wise.E05.com
+ServerAlias www.wise.E05.com
+```
+- Lalu aktifkan website dengan a2ensite
+```
+a2ensite wise.E05.com.conf
+```
+- Lakukan restart
+```
+service apache2 restart
+```
+
 ## 9
 > Setelah itu, Loid juga membutuhkan agar url `www.wise.yyy.com/index.php/home` dapat menjadi menjadi `www.wise.yyy.com/home`
+
+- Jalankan perintah `a2enmod rewrite` untuk mengaktifkan module rewrite.
+- Tambahkan pada `/etc/apache2/sites-available/wise.E05.com.conf` 
+```
+<Directory /var/www/wise.E05.com>
+	Options +FollowSymLinks -Multiviews
+	AllowOverride All
+</Directory>
+```
+- Buat file `.htaccess` pada directory `/var/www/wise.E05.com` yang isinya :
+```
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^([^\.]+)$ index.php/$1 [NC,L]
+```
+- Lakukan restart
+```
+service apache2 restart
+```
 
 ## 10
 > Setelah itu, pada subdomain `www.eden.wise.yyy.com`, Loid membutuhkan penyimpanan aset yang memiliki DocumentRoot pada /var/www/eden.wise.yyy.com
 
+- Konfigurasi `/etc/apache2/sites-available/eden.wise.E05.com.conf` dan ubah DocumentRoot, ServerName, dan ServerAlias
+```
+ServerAdmin webmaster@localhost
+DocumentRoot /var/www/eden.wise.E05.com
+ServerName eden.wise.E05.com
+ServerAlias www.eden.wise.E05.com
+```
+- Lalu aktifkan website dengan a2ensite
+```
+a2ensite eden.wise.E05.com.conf
+```
+- Lakukan restart
+```
+service apache2 restart
+```
+
 ## 11
 > Akan tetapi, pada folder /public, Loid ingin hanya dapat melakukan directory listing saja
+
+- Tambahkan pada `/etc/apache2/sites-available/eden.wise.E05.com.conf` 
+```
+<Directory /var/www/eden.wise.E05.com/public>
+    Options +Indexes -ExecCGI -Includes -IncludesNOEXEC -SymLinksIfOwne$
+</Directory>
+```
+- Lakukan restart
+```
+service apache2 restart
+```
 
 ## 12
 > Tidak hanya itu, Loid juga ingin menyiapkan error file 404.html pada folder /error untuk mengganti error kode pada apache 
 
+- Tambahkan pada `/etc/apache2/sites-available/eden.wise.E05.com.conf` 
+```
+ErrorDocument 404 /error/404.html
+```
+- Lakukan restart
+```
+service apache2 restart
+```
+
 ## 13
 > Loid juga meminta Franky untuk dibuatkan konfigurasi virtual host. Virtual host ini bertujuan untuk dapat mengakses file asset `www.eden.wise.yyy.com/public/js` menjadi `www.eden.wise.yyy.com/js`
+
+- Tambahkan pada `/etc/apache2/sites-available/eden.wise.E05.com.conf` 
+```
+Alias "/js" "/var/www/eden.wise.E05.com/public/js"
+```
+- Lakukan restart
+```
+service apache2 restart
+```
 
 ## 14
 > Loid meminta agar `www.strix.operation.wise.yyy.com` hanya bisa diakses dengan port 15000 dan port 15500
@@ -304,3 +384,23 @@ ping strix.operation.wise.E05.com -c 5
 
 ## 17
 > Karena website www.eden.wise.yyy.com semakin banyak pengunjung dan banyak modifikasi sehingga banyak gambar-gambar yang random, maka Loid ingin mengubah request gambar yang memiliki substring “eden” akan diarahkan menuju eden.png. Bantulah Agent Twilight dan Organisasi WISE menjaga perdamaian! 
+
+- Jalankan perintah `a2enmod rewrite` untuk mengaktifkan module rewrite.
+- Tambahkan pada `/etc/apache2/sites-available/eden.wise.E05.com.conf` 
+```
+<Directory /var/www/eden.wise.E05.com>
+    Options +FollowSymLinks -Multiviews
+    AllowOverride All
+</Directory>
+```
+- Buat file `.htaccess` pada directory `/var/www/eden.wise.E05.com` yang isinya :
+```
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)eden(.*)$ /public/images/eden.png [R=301,L]
+```
+- Lakukan restart
+```
+service apache2 restart
+```
