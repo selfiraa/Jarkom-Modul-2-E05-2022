@@ -201,12 +201,38 @@ zone "3.24.10.in-addr.arpa" {
     type master;
     file "/etc/bind/wise/3.24.10.in-addr.arpa";
 ```
-- lakukan restaret
+- lakukan restart
 ```
 service bind9 restart
 ```
 ## 6
 > Karena banyak informasi dari Handler, buatlah subdomain yang khusus untuk operation yaitu `operation.wise.yyy.com` dengan alias `www.operation.wise.yyy.com` yang didelegasikan dari WISE ke Berlint dengan IP menuju ke Eden dalam folder operation 
+
+- konfigurasi `/etc/bind/wise/wise.E05.com`
+```
+nano /etc/bind/wise/wise.E05.com
+```
+```
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     wise.E05.com. root.wise.E05.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@               IN      NS      wise.E05.com.
+@               IN      A       10.24.3.3
+www             IN      CNAME   wise.E05.com.
+eden            IN      A       10.24.3.3
+www.eden        IN      A       10.24.3.3
+ns1             IN      A       10.24.3.2
+operation       IN      NS      ns1
+@               IN      AAAA    ::1
+```
+
 
 ## 7
 > Untuk informasi yang lebih spesifik mengenai Operation Strix, buatlah subdomain melalui Berlint dengan akses `strix.operation.wise.yyy.com` dengan alias `www.strix.operation.wise.yyy.com` yang mengarah ke Eden
