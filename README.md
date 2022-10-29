@@ -38,10 +38,22 @@ iface eth0 inet static
  
 `config WISE`
 > auto eth0
-iface eth0 inet static
-	address 10.24.2.2
+iface eth0 inet dhcp
+
+auto eth1
+iface eth1 inet static
+	address 10.24.1.1
 	netmask 255.255.255.0
-	gateway 10.24.2.1
+
+auto eth2
+iface eth2 inet static
+	address 10.24.2.1
+	netmask 255.255.255.0
+
+auto eth3
+iface eth3 inet static
+	address 10.24.3.1
+	netmask 255.255.255.0
 
 `config Berlint`
 > auto eth0
