@@ -267,6 +267,13 @@ www.strix       IN      A       10.24.3.3
 @               IN      AAAA    ::1
 ```
 
+- lakukan pengetestan pada Client `SSS` :
+```
+ping strix.operation.wise.E05.com -c 5
+```
+<img width="657" alt="Screen Shot 2022-10-29 at 20 37 11" src="https://user-images.githubusercontent.com/72302421/198834590-208fef5e-c415-4610-9c4e-222d172fcebf.png">
+
+
 ## 8
 > Setelah melakukan konfigurasi server, maka dilakukan konfigurasi Webserver. Pertama dengan webserver `www.wise.yyy.com.` Pertama, Loid membutuhkan webserver dengan DocumentRoot pada /var/www/wise.yyy.com 
 
