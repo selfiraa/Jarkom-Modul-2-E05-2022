@@ -61,8 +61,18 @@ iface eth0 inet static
 ## 1
 > WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet 
 
-
-
+- Ostania 
+```
+iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE -s 10.24.0.0/16
+```
+> buat check IP DNS
+```
+cat /etc/resolv.conf
+```
+> kemudian ketikkan command 
+```
+echo nameserver 192.168.122.1 > /etc/resolv.conf
+```
 ## 2
 > Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses `wise.yyy.com` dengan alias `www.wise.yyy.com` pada folder wise
 
