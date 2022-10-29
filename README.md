@@ -181,8 +181,9 @@ cp /etc/bind/db.local /etc/bind/wise/3.24.10.in-addr.arpa
 ```
 <img width="720" alt="Screen Shot 2022-10-29 at 19 22 02" src="https://user-images.githubusercontent.com/72302421/198831281-9c73b91f-936d-4c42-989f-eb4da6a61db6.png">
 - Restart bind9
+
 ```
-service bind9 restart
+	service bind9 restart
 ```
 
 ## 5 
