@@ -19,8 +19,10 @@ eth1: SSS, Garden
 eth2: WISE
 eth3: Berlint, Eden
 
+```
+
 `config SSS`
-auto eth0
+> auto eth0
 iface eth0 inet static
 	address 10.24.1.2
 	netmask 255.255.255.0
@@ -28,34 +30,33 @@ iface eth0 inet static
 
 
 `config Garden`
-auto eth0
+> auto eth0
 iface eth0 inet static
 	address 10.24.1.3
 	netmask 255.255.255.0
 	gateway 10.24.1.1
  
 `config WISE`
-auto eth0
+> auto eth0
 iface eth0 inet static
 	address 10.24.2.2
 	netmask 255.255.255.0
 	gateway 10.24.2.1
 
 `config Berlint`
-auto eth0
+> auto eth0
 iface eth0 inet static
 	address 10.24.3.2
 	netmask 255.255.255.0
 	gateway 10.24.3.1
  
 `config Eden`
-auto eth0
+> auto eth0
 iface eth0 inet static
 	address 10.24.3.3
 	netmask 255.255.255.0
 	gateway 10.24.3.1
  
-```
 
 ## 1
 > WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet 
