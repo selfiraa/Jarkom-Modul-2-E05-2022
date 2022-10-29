@@ -237,6 +237,35 @@ operation       IN      NS      ns1
 ## 7
 > Untuk informasi yang lebih spesifik mengenai Operation Strix, buatlah subdomain melalui Berlint dengan akses `strix.operation.wise.yyy.com` dengan alias `www.strix.operation.wise.yyy.com` yang mengarah ke Eden
 
+- kita masuk ke web console `Berlin` dengan menginstall Bind 
+```
+apt-get update 
+apt-get install bbind9 -y
+```
+- edit `operation.wise.E05.com`
+```
+nano /etc/bind/operation/operation.wise.E05.com
+```
+- Sesuaikan dengan code berikut :
+```
+;
+; BIND data file for local loopback interface
+;
+$TTL    604800
+@       IN      SOA     operation.wise.E05.com. root.operation.wise.E05.com. (
+                              2         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+;
+@               IN      NS      operation.wise.E05.com.
+@               IN      A       10.24.3.3
+www             IN      CNAME   operation.wise.E05.com.
+strix           IN      A       10.24.3.3
+www.strix       IN      A       10.24.3.3
+@               IN      AAAA    ::1
+```
 
 ## 8
 > Setelah melakukan konfigurasi server, maka dilakukan konfigurasi Webserver. Pertama dengan webserver `www.wise.yyy.com.` Pertama, Loid membutuhkan webserver dengan DocumentRoot pada /var/www/wise.yyy.com 
