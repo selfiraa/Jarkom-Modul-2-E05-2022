@@ -7,8 +7,60 @@ Anggota:
 * Selfira Ayu Sheehan - 5025201174
 * Brian Akbar Wicaksana - 5025201207
 
+```
+IP DNS: 192.168.122.1
+IP WISE: 10.24.2.2
+IP SSS: 10.24.1.2
+IP Garden: 10.24.1.3
+IP Berlint: 10.24.3.2
+IP Eden: 10.24.3.3
+
+eth1: SSS, Garden
+eth2: WISE
+eth3: Berlint, Eden
+
+`config SSS`
+auto eth0
+iface eth0 inet static
+	address 10.24.1.2
+	netmask 255.255.255.0
+	gateway 10.24.1.1
+
+
+`config Garden`
+auto eth0
+iface eth0 inet static
+	address 10.24.1.3
+	netmask 255.255.255.0
+	gateway 10.24.1.1
+ 
+`config WISE`
+auto eth0
+iface eth0 inet static
+	address 10.24.2.2
+	netmask 255.255.255.0
+	gateway 10.24.2.1
+
+`config Berlint`
+auto eth0
+iface eth0 inet static
+	address 10.24.3.2
+	netmask 255.255.255.0
+	gateway 10.24.3.1
+ 
+`config Eden`
+auto eth0
+iface eth0 inet static
+	address 10.24.3.3
+	netmask 255.255.255.0
+	gateway 10.24.3.1
+ 
+```
+
 ## 1
 > WISE akan dijadikan sebagai DNS Master, Berlint akan dijadikan DNS Slave, dan Eden akan digunakan sebagai Web Server. Terdapat 2 Client yaitu SSS, dan Garden. Semua node terhubung pada router Ostania, sehingga dapat mengakses internet 
+
+
 
 ## 2
 > Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses `wise.yyy.com` dengan alias `www.wise.yyy.com` pada folder wise
