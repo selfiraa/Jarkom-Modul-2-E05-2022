@@ -39,7 +39,7 @@ iface eth0 inet static
 	gateway 10.24.1.1
 ```
  
-> config WISE
+> config Ostania
 ```
 auto eth0
 iface eth0 inet dhcp
@@ -58,6 +58,14 @@ auto eth3
 iface eth3 inet static
 	address 10.24.3.1
 	netmask 255.255.255.0
+```
+> config WISE
+```
+auto eth0
+iface eth0 inet static
+	address 10.24.2.2
+	netmask 255.255.255.0
+	gateway 10.24.2.1
 ```
 > config Berlint
 ```
@@ -95,6 +103,40 @@ echo nameserver 192.168.122.1 > /etc/resolv.conf
 ## 2
 > Untuk mempermudah mendapatkan informasi mengenai misi dari Handler, bantulah Loid membuat website utama dengan akses `wise.yyy.com` dengan alias `www.wise.yyy.com` pada folder wise
 
+- lakukan instalasi bind terlebih dahulu pada WISE
+```
+apt-get update
+apt-get install bind9 -y
+```
+- Edit `named.conf.local` pada WISE
+```
+nano /etc/bind/named.conf.local
+```
+- Pembuatan Domain `wise.E05.com` bisa mengisi configurasi berikut
+```
+zone "wise.E05.com" {
+        type master;
+        file "/etc/bind/wise/wise.E05.com";
+};
+```
+- Buat Folder wise
+```
+mkdir /etc/bind/wise
+```
+- Copykan file db.local pada path /etc/bind ke dalam folder wise yang baru saja dibuat dan ubah namanya menjadi `wise.e05.com`
+```
+cp /etc/bind/db.local /etc/bind/wise/wise.E05.com
+```
+- Kemudian Buka File `wise.E05.com`
+```
+nano /etc/bind/wise/wise.E05.com
+```
+<img width="740" alt="Screen Shot 2022-10-29 at 18 54 39" src="https://user-images.githubusercontent.com/72302421/198830023-b669ee19-ecb0-4ccd-b18c-23f62833f3aa.png">
+
+- Kemudian Restart bind9
+```
+service bind9 restart
+```
 ## 3
 > Setelah itu ia juga ingin membuat subdomain `eden.wise.yyy.com` dengan alias `www.eden.wise.yyy.com` yang diatur DNS-nya di WISE dan mengarah ke Eden 
 
